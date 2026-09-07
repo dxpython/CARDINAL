@@ -1,0 +1,23 @@
+# ==== Core (required; enough to run CARDINAL + sklearn baselines + the smoke test) ====
+numpy>=1.24
+pandas>=2.0
+scipy>=1.11
+scikit-learn>=1.3
+torch>=2.0
+matplotlib>=3.7
+pyyaml>=6.0
+networkx>=3.0        # graph structure analysis (precision/recall/F1/SHD helpers)
+python-dateutil
+
+# ==== Optional baseline libraries (install to enable these comparators) ====
+# xgboost>=1.7                  # XGBoost baseline
+# pytorch-tabnet>=4.0           # TabNet baseline
+# tabpfn>=2.0                   # TabPFN-default / TabPFN-tuned comparators
+# pytorch-tabular>=1.1          # FT-Transformer, TabTransformer baselines
+# ==== Very large / heavy (optional, not installed by default) ====
+# NOTEARS / DAG-GNN / PC need per-repo installs; see RUN_STATUS.md
+# MIMIC-IV requires credentialed PhysioNet access and is NOT bundled.
+
+# ==== Dev / quality (optional) ====
+# pytest>=7.0
+# pyyaml

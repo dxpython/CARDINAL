@@ -1,0 +1,64 @@
+# Mapping from actual data-sheet column names -> canonical variable names.
+# Add your real file's header here (Chinese headers supported).
+# Columns not listed are matched by their canonical name (English) directly.
+# Rows below are the common clinical sheet headers; adapt as needed.
+
+mapping:
+  # ---- identifiers ----
+  "序号":        patient_id
+  "住院号":      patient_id
+  "患者姓名":    patient_name
+  "姓名":        patient_name
+
+  # ---- demographics ----
+  "性别":        female             # 1 = 男, 0 = 女 (or 0/1); remap in config
+  "年龄":        age_years
+  "年龄（岁）":  age_years
+  "年龄(岁)":    age_years
+  "BMI":         bmi_kg_m2
+  "吸烟":        current_smoking
+
+  # ---- comorbidity / labs ----
+  "高血压":      hypertension
+  "糖尿病":      diabetes
+  "房颤":        atrial_fibrillation
+  "收缩压":      systolic_bp_mmhg
+  "舒张压":      diastolic_bp_mmhg
+  "心率":        heart_rate_bpm
+  "肌酐":        creatinine_umol_l
+  "eGFR":        egfr_ml_min_1_73m2
+  "血红蛋白":    hemoglobin_g_l
+  "NT-proBNP":   ntprobnp_pg_ml
+
+  # ---- echocardiography ----
+  "LVEF":                lvef_percent
+  "E":                   e_wave_cm_s
+  "e'":                  average_e_prime_cm_s
+  "e'平均值":            average_e_prime_cm_s
+  "E/e'值":              e_over_e_prime
+  "E/e′值":              e_over_e_prime
+  "E/e'":                e_over_e_prime
+  "E/e′":                e_over_e_prime
+  "左心房容积指数":      lavi_ml_m2
+  "LAVI":                lavi_ml_m2
+  "三尖瓣反流速度":      tr_velocity_m_s
+  "TR velocity":         tr_velocity_m_s
+  "左室质量指数":        lv_mass_index_g_m2
+  "减速时间":            deceleration_time_ms
+
+  # ---- targets are usually pre-computed in the clinical sheet ----
+  "Pd值":      pd
+  "Pd":        pd
+  "分级":      dd_class
+  "诊断分级":  dd_class
+  "结局":      dd_class
+
+# Handling rules for values:
+sex_mapping:
+  # raw values on the sheet -> numeric female indicator
+  "男": 0
+  "女": 1
+  "male": 0
+  "female": 1
+  "M": 0
+  "F": 1

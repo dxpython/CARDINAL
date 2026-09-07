@@ -1,0 +1,13 @@
+id,source,target,rationale
+1,age_years,hypertension,Epidemiologic
+2,bmi_kg_m2,hypertension,Epidemiologic
+3,hypertension,lv_mass_index_g_m2,Physiologic
+4,lv_mass_index_g_m2,lavi_ml_m2,Physiologic
+5,atrial_fibrillation,lavi_ml_m2,Physiologic
+6,age_years,average_e_prime_cm_s,Physiologic
+7,average_e_prime_cm_s,e_over_e_prime,Measurement
+8,e_wave_cm_s,e_over_e_prime,Measurement
+9,e_over_e_prime,__outcome__,Reference-standard related
+10,lavi_ml_m2,__outcome__,Reference-standard related
+11,tr_velocity_m_s,__outcome__,Reference-standard related
+12,ntprobnp_pg_ml,__outcome__,Biomarker

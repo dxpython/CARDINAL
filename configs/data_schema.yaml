@@ -1,0 +1,56 @@
+# Canonical variable dictionary for the CARDINAL clinical task.
+# Each entry: canonical name -> {type, unit/levels, label_defining, role}
+# role: predictor | target | id | dropped
+# label_defining: true for E/e', LAVI, TR velocity (inputs to Pd) --
+# the Reviewer-5 exclusion analysis removes exactly these predictors.
+
+variables:
+  # --- identifiers ---
+  patient_id:
+    type: identifier
+    role: id
+  patient_name:
+    type: string
+    role: dropped            # remove PII before modeling
+
+  # --- demographics ---
+  age_years:       { type: continuous, role: predictor }
+  female:          { type: binary, role: predictor }
+  bmi_kg_m2:       { type: continuous, role: predictor }
+  current_smoking: { type: binary, role: predictor }
+
+  # --- comorbidity / hemodynamics ---
+  hypertension:       { type: binary, role: predictor }
+  diabetes:           { type: binary, role: predictor }
+  atrial_fibrillation:{ type: binary, role: predictor }
+  systolic_bp_mmhg:   { type: continuous, role: predictor }
+  diastolic_bp_mmhg:  { type: continuous, role: predictor }
+  heart_rate_bpm:     { type: continuous, role: predictor }
+  egfr_ml_min_1_73m2: { type: continuous, role: predictor }
+  ntprobnp_pg_ml:     { type: continuous, role: predictor }
+
+  # --- echocardiographic / imaging ---
+  lvef_percent:          { type: continuous, role: predictor }
+  e_wave_cm_s:           { type: continuous, role: predictor }
+  septal_e_prime_cm_s:   { type: continuous, role: predictor }
+  lateral_e_prime_cm_s:  { type: continuous, role: predictor }
+  average_e_prime_cm_s:  { type: continuous, role: predictor }
+  e_over_e_prime:        { type: continuous, role: predictor, label_defining: true }
+  lavi_ml_m2:            { type: continuous, role: predictor, label_defining: true }
+  tr_velocity_m_s:       { type: continuous, role: predictor, label_defining: true }
+  lv_mass_index_g_m2:    { type: continuous, role: predictor }
+  deceleration_time_ms:  { type: continuous, role: predictor }
+
+  # --- target / reference ---
+  pd:               { type: continuous, role: target }        # composite index
+  dd_class:         { type: categorical, role: target }        # normal/mild/severe
+  binary_abnormal:  { type: binary, role: target }             # abnormal vs normal
+  split:            { type: categorical, role: metadata }
+
+# For the synthetic smoke-test cohort only (never used for paper results).
+synthetic_only:
+  latent_severity:       { type: continuous, role: target, synthetic: true }
+  synthetic_dd_class:    { type: categorical, role: target, synthetic: true }
+  severity_code:         { type: ordinal, role: target, synthetic: true }
+  simulation_seed:       { type: int, role: metadata, synthetic: true }
+  synthetic_data:        { type: int, role: metadata, synthetic: true }

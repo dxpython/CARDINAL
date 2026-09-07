@@ -1,0 +1,29 @@
+# outputs (created at runtime by run scripts)
+outputs/
+results/
+figures/
+tables/
+*.log
+
+# python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+
+# data — never commit patient data. Put your REAL clinical sheet here, not in git.
+data/*.csv
+data/*.xlsx
+# keep the synthetic smoke-test cohort (clearly labeled as synthetic)
+!data/synthetic_cohort.csv
+
+# env
+*.ipynb_checkpoints
+.DS_Store
+
+# heavy optional model caches
+.tabpfn_cache/

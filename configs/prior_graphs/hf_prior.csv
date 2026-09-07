@@ -1,0 +1,9 @@
+id,source,target,rationale
+1,age,ejection_fraction,Epidemiologic
+2,serum_creatinine,serum_sodium,Renal
+3,diabetes,serum_creatinine,Risk factor
+4,hypertension,ejection_fraction,Risk factor
+5,ejection_fraction,__outcome__,Prognostic
+6,serum_creatinine,__outcome__,Prognostic
+7,serum_sodium,__outcome__,Prognostic
+8,follow_up_time,__outcome__,Follow-up

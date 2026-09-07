@@ -1,0 +1,9 @@
+id,source,target,rationale
+1,age,comorbidity_burden,Epidemiologic
+2,comorbidity_burden,organ_dysfunction,Clinical
+3,heart_rate,severity_score,Physiologic
+4,mean_arterial_pressure,severity_score,Physiologic
+5,creatinine,organ_dysfunction,Laboratory
+6,lactate,severity_score,Laboratory
+7,organ_dysfunction,__outcome__,Prognostic
+8,severity_score,__outcome__,Prognostic

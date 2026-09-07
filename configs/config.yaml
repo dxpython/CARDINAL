@@ -1,0 +1,85 @@
+# CARDINAL reproducibility configuration.
+# All values below match the revised manuscript
+# (main_revised.tex + supplementary_content.tex, Table S1).
+
+seed: 20260730            # primary repeated-run seed
+num_repeated_runs: 20     # matched repeated seeds for stability analysis
+
+data:
+  # Path to the patient-level clinical data (CSV/Excel). Point this at your
+  # LOCAL real clinical data. It must conform to configs/data_schema.yaml.
+  clinical_data_path: data/synthetic_cohort.csv   # synthetic smoke-test only
+  # Column mapping for Chinese (or English) real-data headers -> canonical name.
+  # See configs/column_mapping.yaml. Put your real sheet here if headers differ.
+  column_mapping: configs/column_mapping.yaml
+  patient_id_column: patient_id
+  split_column: split                 # if present in data, fixed split is read from it
+  has_pd_column: false                # true if Pd is already computed in the sheet
+  target_grades_column: synthetic_dd_class  # optional pre-computed label (else derived from Pd)
+  # Reference index weights (must match the paper exactly):
+  ref_index: { e_over_e_prime: 0.45, lavi_ml_m2: 0.35, tr_velocity_m_s: 0.20 }
+  grade_thresholds: { mild: -0.35, severe: 0.70 }   # normal < -0.35 <= mild < 0.70 <= severe
+  abnormal_threshold: 0.50            # binary endpoint: abnormal (mild+severe) vs normal
+
+split:
+  strategy: stratified
+  train_frac: 0.70
+  val_frac: 0.15
+  test_frac: 0.15
+  # Fixed 82/18/18 allocation for the 118-case clinical cohort is produced by the
+  # stratified split; set fixed_split_file to reuse a stored partition for
+  # exact reproduction across runs.
+  fixed_split_file: null
+
+model:
+  name: CARDINAL
+  encoder_layers: [64, 64, 32]
+  latent_dim: 32
+  activation: GELU
+  dropout: 0.20
+  # graph
+  prior_weight: 0.25
+  acyclicity_coeff: 0.10
+  sparsity_weight: 0.05          # eta_s (validation-selected; placeholder default)
+  edge_gate: Gumbel-Sigmoid      # learnable directional edge gates
+  # prototype
+  prototype_momentum: 0.95       # EMA
+  prototype_temperature: 0.20
+  # calibration term
+  calibration_weight: 0.10
+  # optimization
+  optimizer: AdamW
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  batch_size: 16
+  max_epochs: 200
+  early_stopping_patience: 20
+  # loss weights (L = L_CE + a*L_graph + b*L_proto + g*L_cal + l*||theta||^2)
+  alpha_graph: 1.0
+  beta_proto: 1.0
+  gamma_cal: 0.10
+  lambda_wd: 0.0                 # weight decay is handled by AdamW
+
+uncertainty:
+  mc_passes_primary: 30
+  mc_passes_sensitivity: [5, 10, 20, 30, 50, 100]
+  calibration_bins: 10           # quantile-binned reliability diagram
+  confidence_level: 0.95         # Wilson intervals
+
+small_sample:
+  fractions: [0.05, 0.10, 0.20, 0.40, 1.00]
+  min_per_class: 3               # prototype learning requires >=3 per class
+  repeats: 20                    # repeated stratified subsampling per fraction
+
+baselines:
+  # keep the full set available; the main table reports a curated subset.
+  enabled: [LR, RF, XGBoost, MLP, TabNet, NODE, TabTransformer, FT-Transformer,
+            SAINT, TabPFN-default, TabPFN-tuned]
+  tabpfn_version: "2.0.0"
+  tabpfn_tuned_isotonic: true    # validation-only isotonic post-hoc calibration
+
+graph_analysis:
+  structure_methods: [CARDINAL, PC, NOTEARS, DAG-GNN]
+
+output:
+  root: outputs   # results/, figures/, tables/ directories are created here at runtime

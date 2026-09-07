@@ -1,0 +1,9 @@
+id,source,target,rationale
+1,age,resting_bp,Epidemiologic
+2,sex,__outcome__,Epidemiologic
+3,cholesterol,__outcome__,Risk factor
+4,fasting_glucose,__outcome__,Risk factor
+5,exercise_angina,st_depression,Measurement
+6,st_depression,__outcome__,Diagnostic
+7,max_heart_rate,__outcome__,Functional
+8,chest_pain_type,__outcome__,Symptom
